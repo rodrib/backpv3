@@ -171,3 +171,4 @@ def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
 
     # Agregar registros para verificar la correlación calculada
     logging.debug("Correlación calculada: %s", correlacion)
+
