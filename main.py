@@ -153,7 +153,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
 
-@app.get("/api/correlacion")
+""" @app.get("/api/correlacion")
 def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
                      DX1: int = Query(..., description="Valor DX1 del paciente")):
     # Agregar registros para verificar los parámetros recibidos
@@ -170,5 +170,25 @@ def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
         raise HTTPException(status_code=500, detail="Error al calcular la correlación")
 
     # Agregar registros para verificar la correlación calculada
-    logging.debug("Correlación calculada: %s", correlacion)
+    logging.debug("Correlación calculada: %s", correlacion) """
 
+@app.get("/api/correlacion")
+def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
+                     DX1: int = Query(..., description="Valor DX1 del paciente")):
+    # Agregar registros para verificar los parámetros recibidos
+    logging.debug("EDAD recibida: %s", EDAD)
+    logging.debug("DX1 recibido: %s", DX1)
+    
+    try:
+        # Calcular la suma de EDAD y DX1
+        suma = EDAD + DX1
+    except Exception as e:
+        # Si ocurre un error, registra el error
+        logging.error("Error al calcular la suma: %s", e)
+        # Devuelve un mensaje de error al usuario
+        raise HTTPException(status_code=500, detail="Error al calcular la suma")
+
+    # Agregar registros para verificar la suma calculada
+    logging.debug("Suma calculada: %s", suma)
+    
+    return {"suma": suma}
