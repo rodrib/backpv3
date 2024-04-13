@@ -162,7 +162,7 @@ def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
     
     try:
         # Calcula la correlación entre EDAD y DX1
-        correlacion = np.corrcoef(np.array([EDAD]), np.array([DX1]))[0, 1]
+        correlacion = np.corrcoef(np.array([[EDAD, DX1]]), rowvar=False)[0, 1]
     except Exception as e:
         # Si ocurre un error, registra el error
         logging.error("Error al calcular la correlación: %s", e)
@@ -171,6 +171,3 @@ def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
 
     # Agregar registros para verificar la correlación calculada
     logging.debug("Correlación calculada: %s", correlacion)
-
-    # Devuelve la correlación al usuario
-    return {"correlacion_EDAD_DX1": correlacion}
