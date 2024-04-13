@@ -142,12 +142,16 @@ def predecir_cluster(RECIDIVA: int, DX1: int, EDAD: int, GRADO1: int, HER21: int
     # Devuelve el cluster predicho al usuario
     return {"cluster_predicho": cluster_predicho} """
 
+from fastapi import FastAPI, Query, HTTPException
 
+import numpy as np
+from fastapi import FastAPI, Query
 import logging
-from fastapi import FastAPI, HTTPException
 
 # Configurar el registro
 logging.basicConfig(level=logging.DEBUG)
+
+app = FastAPI()
 
 @app.get("/api/correlacion")
 def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
@@ -158,7 +162,7 @@ def predecir_cluster(EDAD: int = Query(..., description="Edad del paciente"),
     
     try:
         # Calcula la correlación entre EDAD y DX1
-        correlacion = np.corrcoef([EDAD, DX1])[0, 1]
+        correlacion = np.corrcoef(np.array([EDAD]), np.array([DX1]))[0, 1]
     except Exception as e:
         # Si ocurre un error, registra el error
         logging.error("Error al calcular la correlación: %s", e)
